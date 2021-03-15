@@ -96,13 +96,13 @@ function createMap(earthquakes) {
 
     storesdata.forEach(store => {
   
-      marker = L.marker(store[storesdata.geocoordinates.lat, storesdata.geocoordinates.lng], {
+      marker = L.marker([store.geocoordinates.lat, store.geocoordinates.lng], {
         draggable: false
       }).bindPopup(
-        `<h4><b>Giant Food ${storesdata.city}, ${storesdata.state}</b></h4>
+        `<h4><b>Giant Food ${store.city}, ${store.state}</b></h4>
         <hr><br>
-        ${storesdata.street_address}<br>
-        ${storesdata.city}, ${storesdata.state}  ${storesdata.zip_code}`
+        ${store.street_address}<br>
+        ${store.city}, ${store.state}  ${store.zip_code}`
       ).addTo(myMap);
       
     });
