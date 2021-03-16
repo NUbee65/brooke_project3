@@ -87,45 +87,31 @@ function createMap(earthquakes) {
     console.log(storesdata.city[0]);
     console.log(storesdata.state[0]);
     console.log(storesdata.zip_code[0]);
-    console.log(storesdata.geocoordinates);
-    console.log(storesdata.geocoordinates[0]);
-    console.log(storesdata.geocoordinates[0].lat);
+    console.log(storesdata.lat[0]);
+    console.log(storesdata.lng[0]);    
 
     console.log(`storesdata is type: ${typeof(storesdata)}`)
-
-
+    
     Object.entries(storesdata).forEach(store => {
-
-      Object.entries(storesdata.geocoordinates).forEach(geopair => {
-        
-        marker = L.marker([geopair.lat, geopair.lng], {
-          draggable: false
-        }).bindPopup(
-          `<h4><b>Giant Food ${store.city}, ${store.state}</b></h4>
-          <hr><br>
-          ${store.street_address}<br>
-          ${store.city}, ${store.state}  ${store.zip_code}`
-        ).addTo(myMap);
-
-      });
-
-      /*
-      marker = L.marker([store.geocoordinates.lat, store.geocoordinates.lng], {
+           
+      var marker = L.marker([store.lat, store.lng], {
         draggable: false
-      }).bindPopup(
+      }).addTo(myMap);
+      
+      marker.bindPopup(
         `<h4><b>Giant Food ${store.city}, ${store.state}</b></h4>
         <hr><br>
         ${store.street_address}<br>
         ${store.city}, ${store.state}  ${store.zip_code}`
-      ).addTo(myMap);
-      */
+      ); 
       
     });
+    
 
     /*
     // Create a new marker
     // Pass in some initial options, and then add it to the map using the addTo method
-    var marker = L.marker([storesdata.geocoordinates[0].lat, storesdata.geocoordinates[0].lng], {
+    var marker = L.marker([storesdata.lat[0], storesdata.lng[0]], {
       draggable: false,
       title: "My First Marker on this Map"
     }).addTo(myMap);
