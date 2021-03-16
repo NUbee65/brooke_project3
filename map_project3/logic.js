@@ -94,8 +94,22 @@ function createMap(earthquakes) {
     console.log(`storesdata is type: ${typeof(storesdata)}`)
 
 
-    storesdata.forEach(store => {
-  
+    Object.entries(storesdata).forEach(store => {
+
+      Object.entries(storesdata.geocoordinates).forEach(geopair => {
+        
+        marker = L.marker([geopair.lat, geopair.lng], {
+          draggable: false
+        }).bindPopup(
+          `<h4><b>Giant Food ${store.city}, ${store.state}</b></h4>
+          <hr><br>
+          ${store.street_address}<br>
+          ${store.city}, ${store.state}  ${store.zip_code}`
+        ).addTo(myMap);
+
+      });
+
+      /*
       marker = L.marker([store.geocoordinates.lat, store.geocoordinates.lng], {
         draggable: false
       }).bindPopup(
@@ -104,6 +118,7 @@ function createMap(earthquakes) {
         ${store.street_address}<br>
         ${store.city}, ${store.state}  ${store.zip_code}`
       ).addTo(myMap);
+      */
       
     });
 
