@@ -81,8 +81,7 @@ function createMap(earthquakes) {
      return response.json();
   })
   .then(function(storesdata) {
-    console.log(storesdata);
-    console.log(storesdata.city);
+    console.log(storesdata);    
     console.log(storesdata.street_address[0]);
     console.log(storesdata.city[0]);
     console.log(storesdata.state[0]);
@@ -91,7 +90,70 @@ function createMap(earthquakes) {
     console.log(storesdata.lng[0]);    
 
     console.log(`storesdata is type: ${typeof(storesdata)}`)
+
+    // Extract simple Arrays from 3 of the 4 keys in the samplesData Object 
+    var storeAddress = storesdata.street_address;
+    console.log(storeAddress)
+    var storeCity = storesdata.city;
+    console.log(storeCity)
+    var storeState = storesdata.state;
+    var storeZip = storesdata.zipcode;
+    var storeLat = storesdata.lat;
+    var storeLng = storesdata.lng;
+
+    // Reassemble the 3 simple Arrays into an Array of Objects
+    // This makes sorting coherent and less error prone
+    var storeArrayOfObjects = storeAddress.map((storeAddress, index) => {
+      return {
+        street_address: storeAddress,
+        city: storeCity[index],
+        state: storeState[index],
+        zip: storeZip[index],
+        lat: storeLat[index],
+        lng: storeLng[index]
+      }
+    });
+    console.log("--- testing storeArrayOfObjects ---");
+    console.log(storeArrayOfObjects)
+
+
+
+
+    // obj = storesdata
+
     
+
+    /*
+    var result = Object.keys(obj).map((key, index) => {
+      var entries = obj[key];
+      var combined = {};
+      entries.forEach(entry => {
+        if (typeof entry === 'string') {
+           combined.name = entry;
+        } else {
+          Object.keys(entry).forEach(key => {
+            if (Array.isArray(combined[key])) {
+              combined[key].push(entry[key]);
+            } else {
+              combined[key] = [entry[key]];
+            }
+          });
+        }
+      });
+      return combined;
+    });    
+
+    console.log(result)
+    console.log(combined);
+    */
+
+
+
+
+
+    
+
+    /*
     Object.entries(storesdata).forEach(store => {
            
       var marker = L.marker([store.lat, store.lng], {
@@ -106,9 +168,10 @@ function createMap(earthquakes) {
       ); 
       
     });
+    */
     
 
-    /*
+    
     // Create a new marker
     // Pass in some initial options, and then add it to the map using the addTo method
     var marker = L.marker([storesdata.lat[0], storesdata.lng[0]], {
@@ -123,7 +186,7 @@ function createMap(earthquakes) {
       ${storesdata.street_address[0]}<br>
       ${storesdata.city[0]}, ${storesdata.state[0]}  ${storesdata.zip_code[0]}`
     );
-    */
+    
 
   });
 
