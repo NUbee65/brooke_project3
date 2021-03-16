@@ -91,7 +91,7 @@ function createMap(earthquakes) {
 
     console.log(`storesdata is type: ${typeof(storesdata)}`)
 
-    // Extract simple Arrays from 3 of the 4 keys in the samplesData Object 
+    // Extract 6 simple Arrays from the storesdata Object 
     var storeAddress = storesdata.street_address;
     console.log(storeAddress)
     var storeCity = storesdata.city;
@@ -101,7 +101,7 @@ function createMap(earthquakes) {
     var storeLat = storesdata.lat;
     var storeLng = storesdata.lng;
 
-    // Reassemble the 3 simple Arrays into an Array of Objects
+    // Reassemble the 6 simple Arrays into an Array of Objects
     // This makes sorting coherent and less error prone
     var storeArrayOfObjects = storeAddress.map((storeAddress, index) => {
       return {
