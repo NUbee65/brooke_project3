@@ -16,30 +16,19 @@ var markerLayer = L.layerGroup()
 function buildMap(inputLatLng) {
 
   // Define streetmap and darkmap layers
-  var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+  var streetmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+      attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     tileSize: 512,
     maxZoom: 18,
     zoomOffset: -1,
-    id: "mapbox/streets-v11",
-    accessToken: API_KEY
-  });
-
-  var darkmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
-    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    maxZoom: 18,
     id: "dark-v10",
     accessToken: API_KEY
   });
 
+  
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
     "Street Map": streetmap
-  };
-
-  // Create overlay object to hold our overlay layer
-  var overlayMaps = {
-    "Dark Map": darkmap
   };
 
   // Create our map, giving it the streetmap and earthquakes layers to display on load
@@ -89,9 +78,11 @@ function buildMap(inputLatLng) {
     console.log(storesdataX)
     console.log(`storesdataX is type: ${typeof(storesdataX)}`)
     
+    var markerclusters = L.markerClusterGroup();
+
     storesdataX.forEach(store => {
             
-      var marker = L.marker([store.lat, store.lng], {
+      var marker = L.circleMarker([store.lat, store.lng], {
         draggable: false
       }).addTo(markerLayer);
       
@@ -102,7 +93,12 @@ function buildMap(inputLatLng) {
         ${store.city}, ${store.state}  ${store.zip_code}`
       );
 
+      markerclusters.addLayer(marker);
+
     });
+
+    markerclusters.addTo(markerLayer);
+
   });
 
   markerLayer.addTo(myMap);
@@ -110,7 +106,7 @@ function buildMap(inputLatLng) {
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
   // Add the layer control to the map
-  L.control.layers(baseMaps, overlayMaps // {
+  L.control.layers(baseMaps //, overlayMaps // {
     // collapsed: false
   ).addTo(myMap);
 
@@ -184,7 +180,7 @@ function refreshMap() {
       console.log("--- biztypes ---")
       console.log(biztypes)
 
-      if ('grocery_or_supermarket' in biztypes === true) {
+      if (biztypes.includes('grocery_or_supermarket') === true) {
 
         lat = d['geometry']['location']['lat'];
         lng = d['geometry']['location']['lng'];
@@ -208,12 +204,9 @@ function refreshMap() {
     markerclusters.addTo(markerLayer);
     //myMap.addLayer(markerclusters);
   });
-
   
 
   
-
-  // d3.json that to plot maps
 
   // but use markerclusters :)
 
@@ -221,46 +214,32 @@ function refreshMap() {
 
   // once that is done, switch to marker image
 
-  /*
-  function getLatLngByZipcode(zipcode) {
 
-    var geocoder = new google.maps.Geocoder();
-    var address = zipcode;
-    geocoder.geocode({ 'address': 'zipcode '+address }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            var latitude = results[0].geometry.location.lat();
-            var longitude = results[0].geometry.location.lng();
-            alert("Latitude: " + latitude + "\nLongitude: " + longitude);
-        } else {
-            alert("Request failed.")
-        }
-    });
-    return [latitude, longitude];
-    console.log(latitude);
-    console.log(longitude);
+
+  // make API call and pass the zip code to get coords
+  url2 = `/refreshMapTwo?zip=${zip}`
+
+  d3.json(url2).then(zipgeocoords => {
+
+    console.log("--- zipgeocoords ---");
+    console.log(zipgeocoords['results'][0]['geometry']['location']['lat']);
+    console.log(zipgeocoords['results'][0]['geometry']['location']['lng']);
+
+    var inputLat = zipgeocoords['results'][0]['geometry']['location']['lat'];
+    var inputLng = zipgeocoords['results'][0]['geometry']['location']['lng'];
+    var inputLatLng = [inputLat,inputLng];
+
+    console.log("--- inputLatLng on the Refresh ---");
+    console.log(inputLatLng);
+    console.log(inputLatLng[0]);
+    console.log(inputLatLng[1]);
+  
+    buildMap(inputLatLngX);
+
+  });
+
 
 };
-*/
-
-
-
-
-
-
-  var inputLat = 38.897250;
-  var inputLng = -77.004760;
-  var inputLatLng = [inputLat,inputLng];
-  console.log(inputLatLng);
-  console.log(inputLatLng[0]);
-  console.log(inputLatLng[1]);
-
-  buildMap(inputLatLng);
-};
-
-// Call the init() function to initially load the map
-
-// init();
-
 
 
 

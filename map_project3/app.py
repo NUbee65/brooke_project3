@@ -8,6 +8,20 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
+@app.route('/refreshMapTwo')
+def refreshMapTwo():
+    
+    zip = request.args.get('zip')
+
+    # make API call and pass the zip code to get coords
+    zip_url = f'https://maps.googleapis.com/maps/api/geocode/json?key={gmaps_key}&components=postal_code:{zip}'
+  
+    zip_json = requests.get(zip_url).json()
+    
+    return jsonify(zip_json)
+
+
 @app.route('/refreshMap')
 def refreshMap():
     
