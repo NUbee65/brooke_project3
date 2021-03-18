@@ -4,6 +4,14 @@
   <meta charset="utf-8">
   <title>Giant Food Stores</title>
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+  <!-- Bootstrap JS Jquery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
     integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -33,6 +41,72 @@
 </head>
 
 <body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      
+      <a class="navbar-brand" href="#">Anyone Can Cook</a>
+      
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="col-md-3" style='margin-top: 40px;'>
+          <div class="card">
+            <div class="card-header";'>
+              <p class="card-title" style='text-align: center; color: rgb(0, 0, 0);'>User Selections</p>
+            </div>
+            <div id="chosen-zip-radius" class="card-body bg-light"></div>
+          </div>
+        </div>  
+
+        <form class="range-field w-25">
+          <!-- <input id="distance" data-slider-id="ex1Slider" type="text" data-slider-min="1" data-slider-max="10" data-slider-step="1" data-slider-value="14"/> -->
+          <label for="slider-2">Search Radius (miles)</label>
+          <input type="range" name="slider-2" id="distance" min="1" max="20" value="10" data-show-value="true">
+        </form>
+
+        <form id="input-zip" class="form-inline my-2 my-lg-0">
+          <div class="container"> <!-- container -->
+            <div class="row"> <!-- container row -->
+              <div class="col-md-6">
+                <h6>Grocery Stores Nearest You</h6>
+              </div>
+            </div>           
+            <div class="row"> <!-- container row -->
+              <div class="col-md-3">
+                <input id="zip-field" class="form-control mr-sm-2" type="text" type="search" placeholder="e.g. 20500" aria-label="Search">
+              </div>
+              <div class="col-md-3">
+                <button id="zip-btn" class="btn btn-outline-success my-2 my-sm-0" class="btn btn-default" type="button" type="submit">Search Zip Code</button>
+              </div>
+            </div>
+          </div>
+
+
+          
+          
+          
+        </form>
+        
+      </div>
+    </nav>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   <div class="container"> <!-- container -->
     <div class="row"> <!-- container row -->
@@ -40,24 +114,14 @@
         <div class="card"></div>
           <form>
 
-            <div class="form-group">
-              <ul class="list-group" id="input-zip">
-              <li class="filter list-group-item">
-                <label for="date">Zip Code or City, State<br></label>
-                <input class="form-control" id="zip-field" type="text" placeholder="e.g. 20500">
-              </li>
-            </div>>
-            <button id="zip-btn" type="button" class="btn btn-default">Grocery Stores Nearest You</button>
-
             
 
           </form>
         </div>
       </div>
-      <div class="col-md-3">
-        <label for="points">Within X Miles:</label>
-        <input type="range" id="distance" name="points" min="1" max="10">
-      </div>
+     
+
+       
 
     </div>> <!-- end of container row -->
   </div> <!-- end of container -->

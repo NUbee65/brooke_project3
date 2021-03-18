@@ -24,7 +24,6 @@ function buildMap(inputLatLng) {
     id: "dark-v10",
     accessToken: API_KEY
   });
-
   
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
@@ -90,8 +89,15 @@ function buildMap(inputLatLng) {
         `<h4><b>Giant Food ${store.city}, ${store.state}</b></h4>
         <hr><br>
         ${store.street_address}<br>
-        ${store.city}, ${store.state}  ${store.zip_code}`
+        ${store.city}, ${store.state}  ${store.zip}`
       );
+
+      marker.on('mouseover', function (e) {
+        this.openPopup();
+      });
+      marker.on('mouseout', function (e) {
+          this.closePopup();
+      });
 
       markerclusters.addLayer(marker);
 
@@ -142,14 +148,36 @@ init();
 
 function refreshMap() {
 
-  slider = d3.select('#distance');
-  distance_mi = slider.node().value;
-  distance_m = distance_mi * 1600;
+  var slider = d3.select('#distance');
+  var distance_mi = slider.node().value;
+  var distance_m = distance_mi * 1600;
 
-  zipfield = d3.select('#zip-field');
-  zip = zipfield.node().value; 
+  var zipfield = d3.select('#zip-field');
+  var zip = zipfield.node().value; 
 
   console.log(zip, distance_m);
+
+  // populate card body
+
+  var cardItem1 = (`ZIPcode: ${zip}`);
+  var cardItem2 = (`Radius (mi): ${distance_mi}`);
+  
+  cardKeysValues = [
+    cardItem1,
+    cardItem2
+  ];
+
+  console.log("--- testing panelKeysValues ---");
+  console.log(cardKeysValues);
+
+  var cardBody = d3.select('#chosen-zip-radius');
+
+  cardBody.html('');
+
+  cardKeysValues.forEach(item => {
+    cardBody.append("p").text(item);
+  }); 
+
 
   /////////////////////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////
@@ -189,7 +217,15 @@ function refreshMap() {
         store_address = d['vicinity'];
 
         marker = L.circleMarker(coords);
+
         marker.bindPopup(`${store_name}<br/>${store_address}`)
+
+        marker.on('mouseover', function (e) {
+          this.openPopup();
+        });
+        marker.on('mouseout', function (e) {
+            this.closePopup();
+        });
 
         markerclusters.addLayer(marker);
 
@@ -206,16 +242,6 @@ function refreshMap() {
   });
   
 
-  
-
-  // but use markerclusters :)
-
-  // also, use L.markerCircle instead of L.marker **
-
-  // once that is done, switch to marker image
-
-
-
   // make API call and pass the zip code to get coords
   url2 = `/refreshMapTwo?zip=${zip}`
 
@@ -225,16 +251,18 @@ function refreshMap() {
     console.log(zipgeocoords['results'][0]['geometry']['location']['lat']);
     console.log(zipgeocoords['results'][0]['geometry']['location']['lng']);
 
-    var inputLat = zipgeocoords['results'][0]['geometry']['location']['lat'];
-    var inputLng = zipgeocoords['results'][0]['geometry']['location']['lng'];
-    var inputLatLng = [inputLat,inputLng];
+    var inputLatR = zipgeocoords['results'][0]['geometry']['location']['lat'];
+    var inputLngR = zipgeocoords['results'][0]['geometry']['location']['lng'];
+    var inputLatLngR = [inputLatR,inputLngR];
 
     console.log("--- inputLatLng on the Refresh ---");
-    console.log(inputLatLng);
-    console.log(inputLatLng[0]);
-    console.log(inputLatLng[1]);
+    console.log(inputLatLngR);
+    console.log(inputLatLngR[0]);
+    console.log(inputLatLngR[1]);
+
+    myMap.setView(new L.LatLng(inputLatR, inputLngR), 13);
   
-    buildMap(inputLatLngX);
+    // buildMap(inputLatLng);
 
   });
 
